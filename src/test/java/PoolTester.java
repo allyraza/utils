@@ -7,17 +7,49 @@ import simplepool.PoolFactory;
 public class PoolTester {
 
     public static void main(String[] args) throws Exception  {
+
+  /*      {
+            PoolFactory factory = PoolFactory.getInstance();
+
+            Pool<DBWrapper> dbPool = new Pool<>(DBWrapper.class, "DB");
+            dbPool.init(1, 1, 10000);
+            factory.registerPool(dbPool);
+            DBWrapper wrapper = (DBWrapper) factory.getPool("DB").checkout();
+
+            wrapper.init(); //TODO - this needs to be in the pool
+            wrapper.persist(100, "Hello World");
+            wrapper.destroy();
+
+            factory.getPool("DB").checkin(wrapper);
+
+        }*/
+
         PoolFactory factory = PoolFactory.getInstance();
-        Pool<DBWrapper> dbPool = new Pool<>(DBWrapper.class, "DB");
-        dbPool.init(1,1,10000);
+
+
+        Pool<DummyWrapper> dbPool = new Pool<>(DummyWrapper.class, "DW");
+        dbPool.init(1, 10, 10000);
         factory.registerPool(dbPool);
-        DBWrapper wrapper = (DBWrapper) factory.getPool("DB").checkout();
 
-        wrapper.init(); //TODO - this needs to be in the pool
-        wrapper.persist(100, "Hello World");
-        wrapper.destroy();
+        for (int i=0;i<10;i++) {
+            Thread t = new Thread(() ->
 
-        factory.getPool("DB").checkin(wrapper);
+            {
+
+                for (int j = 0; j < 10; j++) {
+                    DummyWrapper wrapper = (DummyWrapper) factory.getPool("DW").checkout();
+
+                    wrapper.process();
+
+                    factory.getPool("DW").checkin(wrapper);
+                }
+            }
+
+            );
+
+            t.start();
+        }
+
 
 
     }
