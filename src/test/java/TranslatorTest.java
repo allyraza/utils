@@ -17,7 +17,7 @@ public class TranslatorTest {
         Translator translator = Translator.getInstance();
         translator.addDataToCache(d);
 
-       String ans =  translator.getTranslation("Gender","C1V1","M");
+       String ans =  translator.getTranslation("Gender","C2V2","M");
 
         System.out.println(ans);
 

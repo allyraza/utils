@@ -42,7 +42,7 @@ public class ExpandedData {
             return s;
         } catch (Exception e )
         {
-            e.printStackTrace();
+           // e.printStackTrace();
             return value ;
         }
     }
