@@ -77,7 +77,9 @@ public class Pool<T> {
 
     }
 
-    int min , max , timeIdle;
+    int min , max ;
+
+    int timeIdle;
 
     AtomicInteger currenCount = new AtomicInteger(0);
 
@@ -102,5 +104,26 @@ public class Pool<T> {
         System.out.println(currenCount.get());
     }
 
+    public void destroy()
+    {
+        //TODO - change from T to a better interface and then call destroy on each instance
 
+    }
+
+
+    public synchronized  void clean() {
+        long currTime = System.currentTimeMillis();
+        while(true) {
+            PoolData<T> data = poolDatas.peek();
+            if (data==null)
+                break;
+            if (currTime - timeIdle > data.getLastTime()) {
+                poolDatas.remove();
+                currenCount.decrementAndGet();
+            }
+            else
+                break ;
+
+        }
+    }
 }

@@ -50,9 +50,11 @@ public class PoolTester {
             t.start();
         }
 
-        Thread.sleep(10000);
+        Thread.sleep(50000);
+
 
         dbPool.printSize();
+        factory.destroy();
 
 
 
