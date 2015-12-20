@@ -4,6 +4,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by mkhanwalkar on 12/19/15.
@@ -30,9 +31,11 @@ public class Pool<T> {
         this.name = name;
     }
 
-    public T checkout()
+    public synchronized T checkout()
     {
         try {
+            if (poolDatas.isEmpty())
+             check();
             PoolData<T> pData = poolDatas.take();
             T t = pData.get();
             return t ;
@@ -50,9 +53,35 @@ public class Pool<T> {
 
     }
 
+    private  void check()
+    {
+
+        if (currenCount.get() < max)
+        {
+            currenCount.incrementAndGet();
+        }
+        add();
+
+    }
+
+    private void add()  {
+        try {
+            PoolData<T> data = new PoolData<T>();
+            data.set(typeArgumentClass.newInstance());
+            poolDatas.add(data);
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     int min , max , timeIdle;
 
-    public void init(int min , int max , int timeIdle) throws IllegalAccessException, InstantiationException {
+    AtomicInteger currenCount = new AtomicInteger(0);
+
+    public void init(int min , int max , int timeIdle)  {
         this.min = min;
         this.max = max;
         this.timeIdle= timeIdle;
@@ -61,11 +90,16 @@ public class Pool<T> {
         for (int i=0;i<min;i++)
         {
 
-            PoolData<T> data = new PoolData<T>();
-            data.set(typeArgumentClass.newInstance());
-            poolDatas.add(data);
+           add();
 
         }
+
+        currenCount.set(min);
+    }
+
+    public void printSize()
+    {
+        System.out.println(currenCount.get());
     }
 
 

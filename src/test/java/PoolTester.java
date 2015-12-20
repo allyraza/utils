@@ -31,7 +31,7 @@ public class PoolTester {
         dbPool.init(1, 10, 10000);
         factory.registerPool(dbPool);
 
-        for (int i=0;i<10;i++) {
+        for (int i=0;i<5;i++) {
             Thread t = new Thread(() ->
 
             {
@@ -49,6 +49,10 @@ public class PoolTester {
 
             t.start();
         }
+
+        Thread.sleep(10000);
+
+        dbPool.printSize();
 
 
 
