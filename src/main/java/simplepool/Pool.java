@@ -67,7 +67,10 @@ public class Pool<T> {
     private void add()  {
         try {
             PoolData<T> data = new PoolData<T>();
-            data.set(typeArgumentClass.newInstance());
+            Wrapper wrapper = (Wrapper)typeArgumentClass.newInstance();
+            wrapper.init();
+            data.set((T)wrapper);
+
             poolDatas.add(data);
         } catch (InstantiationException e) {
             e.printStackTrace();
@@ -106,8 +109,12 @@ public class Pool<T> {
 
     public void destroy()
     {
-        //TODO - change from T to a better interface and then call destroy on each instance
-
+       while (!poolDatas.isEmpty())
+       {
+           PoolData<T> data = poolDatas.remove();
+           Wrapper wrapper = (Wrapper)data.get();
+           wrapper.destroy();
+       }
     }
 
 

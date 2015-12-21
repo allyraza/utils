@@ -1,10 +1,12 @@
 
+import simplepool.Wrapper;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class DBWrapper
+public class DBWrapper implements Wrapper
 {
 
 
