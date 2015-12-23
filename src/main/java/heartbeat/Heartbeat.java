@@ -36,6 +36,24 @@ public class Heartbeat {
         if (connect())
         {
             System.out.println("Connected as Client ");
+            Thread t = new Thread(()->{
+
+                while(true)
+                {
+                    out.println("Hello from client");
+                    out.flush();
+                    try {
+                    System.out.println(input.readLine());
+                        Thread.sleep(1000);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            });
+
+            t.start();
+
 
         }
         else
@@ -85,13 +103,31 @@ public class Heartbeat {
                     ServerSocket listener = new ServerSocket(port);
                     try {
                         while(true) {
-                            Socket socket = listener.accept();
+                             Socket socket = listener.accept();
                             System.out.println("Listening as server");
                            // Handler handler = (Handler) Class.forName(handlerType).newInstance();
                             //handler.setSocket(socket);
-                            //Thread t1 = new Thread(new ClientHandler(socket));
+                         Thread t1 = new Thread(()->{
+
+                             while(true) {
+                                 try {
+                                     BufferedReader input =
+                                             new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                                     PrintWriter out =
+                                             new PrintWriter(socket.getOutputStream(), true);
+                                     System.out.println(input.readLine());
+                                     out.println("Hello from server");
+                                     out.flush();
+
+                                 } catch (IOException e) {
+                                     e.printStackTrace();
+                                 }
+                             }
+
+
+                           });
                             //Thread t1 = new Thread(handler);
-                            //t1.start();
+                            t1.start();
                         }
                     }
                     finally {
