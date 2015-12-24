@@ -7,14 +7,19 @@ public class HeartbeatTester {
 
     public static void main(String[] args) throws Exception {
 
-        HBTServer server = new HBTServer();
+        if (args[0].equals("server")) {
 
-        server.start();
+            HBTServer server = new HBTServer();
 
-        Thread.sleep(1000);
+            server.start();
 
-        HBTClient client = new HBTClient();
-        client.start();
+        }
+        else {
+
+            HBTClient client = new HBTClient();
+            client.start();
+
+        }
 
     }
 
@@ -23,23 +28,5 @@ public class HeartbeatTester {
 }
 
 
-class HBTClient
-{
-    public void start()
-    {
-        Heartbeat beat = new Heartbeat(21000, "localhost", 10, 10);
-        beat.init();
-
-    }
-}
 
 
-class HBTServer
-{
-    public void start()
-    {
-        Heartbeat beat = new Heartbeat(21000, "localhost", 10, 10);
-        beat.init();
-
-    }
-}

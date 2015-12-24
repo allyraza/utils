@@ -31,35 +31,64 @@ public class Heartbeat {
     // try to connect to target host , if successful set up task to connect to host .
     // else set up server to listen to incoming connections .
 
+
     public void init()
     {
-        if (connect())
-        {
-            System.out.println("Connected as Client ");
-            Thread t = new Thread(()->{
+        Thread t = new Thread(()->{
 
-                while(true)
-                {
-                    out.println("Hello from client");
-                    out.flush();
-                    try {
-                    System.out.println(input.readLine());
-                        Thread.sleep(1000);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+            while (true)
+            {
+                for (int i=0;i<10;i++) {
+                    if (connect())
+                    {
+                        i=0;  // resert the counter on every successful connection
+                        sendHeartBeat();
+                        try {
+                            Thread.sleep(10000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
 
-            });
+                server();
+            }
 
-            t.start();
+
+        });
+
+        t.start();
 
 
-        }
-        else
-        {
-            server();
-        }
+
+
+    }
+
+    private void sendHeartBeat()
+    {
+        System.out.println("Connected as Client ");
+       // Thread t = new Thread(()->{
+
+            while(true)
+            {
+                out.println("Hello from client" + Thread.currentThread().getName());
+                out.flush();
+                try {
+                    String s = input.readLine();
+                    if (s==null)
+                        break;
+                    System.out.println(s);
+                    Thread.sleep(1000);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    break;
+                }
+            }
+
+     //   });
+
+     //   t.start();
+
 
     }
 
@@ -95,8 +124,7 @@ public class Heartbeat {
     public void server ()
     {
 
-        {
-            Thread t = new Thread(()->{
+    //        Thread t = new Thread(()->{
 
 
                 try {
@@ -115,8 +143,9 @@ public class Heartbeat {
                                              new BufferedReader(new InputStreamReader(socket.getInputStream()));
                                      PrintWriter out =
                                              new PrintWriter(socket.getOutputStream(), true);
+
                                      System.out.println(input.readLine());
-                                     out.println("Hello from server");
+                                     out.println("Hello from server" + Thread.currentThread().getName());
                                      out.flush();
 
                                  } catch (IOException e) {
@@ -135,16 +164,17 @@ public class Heartbeat {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
+
                 }
 
 
-            });
+          //  });
 
-            t.start();
+            //t.start();
 
 
 
-        }
+        //}
 
     }
 
