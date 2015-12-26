@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsonschema.JsonSchema;
 import com.fasterxml.jackson.databind.util.EmptyIterator;
+import com.fasterxml.jackson.xml.XmlMapper;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import java.lang.reflect.Field;
@@ -62,6 +63,10 @@ public class AttrCopyTester {
         process(test1,test,"Rule1");
 
         System.out.println(mapper.writeValueAsString(test1));
+
+        XmlMapper xmlMapper = new XmlMapper();
+        System.out.println(xmlMapper.writeValueAsString(test1));
+
 
 
         com.fasterxml.jackson.databind.JsonNode rootNode = mapper.readTree(s1);
