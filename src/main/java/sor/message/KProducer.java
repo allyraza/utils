@@ -11,7 +11,7 @@ import java.util.Properties;
 
 
 public class KProducer {
-    final static String TOPIC = "test";
+    final static String TOPIC = "test1";
 
 
     public static void main(String[] argv) throws Exception {
@@ -28,7 +28,7 @@ public class KProducer {
         properties.put("session.timeout.ms", "30000");
         properties.put("key.deserializer","org.apache.kafka.common.serialization.StringDeserializer");
         properties.put("value.deserializer","org.apache.kafka.common.serialization.StringDeserializer");
-        properties.put("partition.assignment.strategy", "range");
+     //   properties.put("partition.assignment.strategy", "range");
         properties.put("key.serializer","org.apache.kafka.common.serialization.StringSerializer");
         properties.put("value.serializer","org.apache.kafka.common.serialization.StringSerializer");
        // props.put("metadata.broker.list", "broker1:9092,broker2:9092");
@@ -38,8 +38,10 @@ public class KProducer {
         SimpleDateFormat sdf = new SimpleDateFormat();
 
 
-        ProducerRecord<String, String> message =new ProducerRecord<String, String>(TOPIC,"Test message from java program " + sdf.format(new Date()));
-        producer.send(message);
+        for (int i=0;i<1000;i++) {
+            ProducerRecord<String, String> message = new ProducerRecord<String, String>(TOPIC, "Test message from java program " + sdf.format(System.nanoTime()));
+            producer.send(message);
+        }
 
         Thread.sleep(1000);
         producer.close();

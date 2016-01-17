@@ -36,7 +36,7 @@ public class DBWriter {
          */
 
      //   session.execute("INSERT INTO users (lastname, age, city, email, firstname) VALUES ('Jones', 35, 'Austin', 'bob@example.com', 'Bob')");
-        ResultSet results = session.execute("SELECT  JSON * FROM users1");
+        ResultSet results = session.execute("SELECT  JSON * FROM users where lastname = 'Jones'");
         for (Row row : results) {
             System.out.println(row);
         }
