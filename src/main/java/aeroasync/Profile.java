@@ -1,5 +1,8 @@
 package aeroasync;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
  * Created by mkhanwalkar on 3/5/16.
  */
@@ -9,6 +12,8 @@ public class Profile {
     final String id ;
     final String address ;
     long lastUpdate;
+
+    static ObjectMapper mapper = new ObjectMapper();
 
     public Profile()
     {
@@ -47,5 +52,15 @@ public class Profile {
                 ", address='" + address + '\'' +
                 ", lastUpdate=" + lastUpdate +
                 '}';
+    }
+
+    public String toJSon()
+    {
+        try {
+            return mapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

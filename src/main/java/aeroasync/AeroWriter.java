@@ -24,7 +24,7 @@ public class AeroWriter {
     {
 
         com.aerospike.client.Key key = new com.aerospike.client.Key("test", "demo", profile.getId());
-        Bin bin1 = new Bin("bin1", profile.getName());
+        Bin bin1 = new Bin("bin1", profile.toJSon());
        // Bin bin2 = new Bin("bin2", "value2");
 
     //    console.info("Put: namespace=%s set=%s key=%s bin1=%s value1=%s bin2=%s value2=%s",
