@@ -8,48 +8,35 @@ import java.util.List;
  */
 public class TestDriver {
 
-    public static void main(String[] args) {
+    AeroWriter writer = new AeroWriter();
+
+    public static void main(String[] args) throws Exception {
         TestDriver driver = new TestDriver();
 
         driver.drive();
+
+        Thread.sleep(1000);
     }
 
     public void drive()
     {
 
-List<Key> keys= new ArrayList<>();
-        for (int i=0;i<100;i++)
-        {
-            keys.add(new Key());
-        }
-
-        processKeys(keys);
-
-
-    }
-
-    private void processKeys(List<Key> keys)
-    {
-
-
-    }
-
-    private void getProfiles(Key key)
-    {
-
-    }
-
-    private void processProfile()
-    {
-        // update
+        Profile profile = createProfile();
+        writer.write(profile);
 
     }
 
 
-    private void createProfiles(Key key)
+
+
+    private Profile createProfile()
     {
         Profile profile = new Profile();
 
+        return profile ;
+
     }
+
+
 
 }
