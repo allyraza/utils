@@ -113,14 +113,21 @@
         <dependency>
             <groupId>com.datastax.cassandra</groupId>
             <artifactId>cassandra-driver-core</artifactId>
-            <version>3.0.0-rc1</version>
+            <version>3.0.0</version>
         </dependency>
 
-  <!--      <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka-clients</artifactId>
-            <version>0.9.0.0</version>
-        </dependency> -->
+        <dependency>
+            <groupId>com.datastax.cassandra</groupId>
+            <artifactId>cassandra-driver-mapping</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+
+        <!--      <dependency>
+                  <groupId>org.apache.kafka</groupId>
+                  <artifactId>kafka-clients</artifactId>
+                  <version>0.9.0.0</version>
+              </dependency> -->
 
 
         <dependency>
@@ -128,9 +135,10 @@
             <artifactId>kafka-clients</artifactId>
             <version>0.9.0.0</version>
         </dependency>
-
-
-
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+        </dependency>
 
 
     </dependencies>
