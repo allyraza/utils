@@ -22,7 +22,7 @@ public class TestDriver {
     {
 
         Profile profile = createProfile();
-        writer.write(profile);
+        writer.awrite(profile);
 
     }
 
