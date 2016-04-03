@@ -15,7 +15,9 @@ public class TestDriver {
 
         driver.drive();
 
-        Thread.sleep(1000);
+        driver.writer.runQuery();
+
+        Thread.sleep(10000);
     }
 
     public void drive()

@@ -4,8 +4,15 @@ import com.aerospike.client.*;
 import com.aerospike.client.Key;
 import com.aerospike.client.async.AsyncClient;
 import com.aerospike.client.async.AsyncClientPolicy;
+import com.aerospike.client.command.Buffer;
 import com.aerospike.client.listener.RecordListener;
+import com.aerospike.client.listener.RecordSequenceListener;
 import com.aerospike.client.listener.WriteListener;
+import com.aerospike.client.query.Filter;
+import com.aerospike.client.query.Statement;
+import com.aerospike.client.util.Util;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by mkhanwalkar on 4/2/16.
@@ -75,5 +82,39 @@ public class AeroWriter {
 
     }
 
+
+    public void runQuery() {
+
+        String binName = "bin1";
+
+        Statement stmt = new Statement();
+        stmt.setNamespace("test");
+        stmt.setSetName("demo");
+        stmt.setBinNames(binName);
+        //stmt.setFilters(Filter.range(binName, begin, end));
+
+        final AtomicInteger count = new AtomicInteger();
+
+        aclient.query(null, new RecordSequenceListener() {
+            public void onRecord(Key key, Record record) throws AerospikeException {
+
+                System.out.printf("Record found: ns=%s set=%s bin=%s digest=%s value=%s\n",
+                        key.namespace, key.setName, binName, Buffer.bytesToHexString(key.digest), record);
+
+                count.incrementAndGet();
+            }
+
+            public void onSuccess() {
+
+            }
+
+            public void onFailure(AerospikeException e) {
+
+                System.out.printf("Query failed: " + Util.getErrorMessage(e));
+                //notifyComplete();
+            }
+
+        }, stmt);
+    }
 
 }
