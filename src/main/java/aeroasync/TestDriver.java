@@ -22,9 +22,14 @@ public class TestDriver {
 
     public void drive()
     {
+        List<Profile> profiles = new ArrayList<>();
 
-        Profile profile = createProfile();
-        writer.awrite(profile);
+        for (int i=0;i<3;i++) {
+
+            Profile profile = createProfile();
+            profiles.add(profile);
+        }
+        writer.bawrite(profiles);
 
     }
 

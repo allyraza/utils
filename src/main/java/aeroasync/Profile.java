@@ -3,6 +3,8 @@ package aeroasync;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * Created by mkhanwalkar on 3/5/16.
  */
@@ -15,11 +17,13 @@ public class Profile {
 
     static ObjectMapper mapper = new ObjectMapper();
 
+    static AtomicInteger ai = new AtomicInteger(0);
+
     public Profile()
     {
         this.name = Randomizer.getInstance().getRandomString(10,false);
         this.address = Randomizer.getInstance().getRandomString(20,false);
-        this.id = Randomizer.getInstance().getRandomString(30,true);
+        this.id = String.valueOf(ai.incrementAndGet());
         this.lastUpdate = System.nanoTime();
 
     }

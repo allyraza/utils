@@ -12,6 +12,7 @@ import com.aerospike.client.query.Filter;
 import com.aerospike.client.query.Statement;
 import com.aerospike.client.util.Util;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -78,6 +79,19 @@ public class AeroWriter {
             }
         },key, bin1);
 
+
+
+    }
+
+
+    public void bawrite(List<Profile> profiles)
+    {
+
+        for (Profile profile : profiles ) {
+
+            awrite(profile);
+
+        }
 
 
     }
